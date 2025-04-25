@@ -1,0 +1,49 @@
+Comando:
+ ./sim-cache -cache:il1 il1:64:32:1:l -cache:dl1 dl1:64:32:1:l -cache:il2 none -cache:dl2 none -tlb:itlb none -tlb:dtlb none Benchmarks/gcc/cc1.ss Benchmarks/gcc/gcc.i
+
+
+
+Esse comando está rodando uma simulação de desempenho de cache com o programa sim-cache (Simulador do SimpleScalar) e está configurado para analisar como o cache se comporta ao executar um benchmark específico (nesse caso, o compilador gcc rodando um arquivo de entrada). Explicação do comando de forma resumida:
+./sim-cache \
+  -cache:il1 il1:64:32:1:l \     # Cache de instrução de primeiro nível (L1)
+  -cache:dl1 dl1:64:32:1:l \     # Cache de dados de primeiro nível (L1)
+  -cache:il2 none \              # Sem cache de instrução de segundo nível (L2)
+  -cache:dl2 none \              # Sem cache de dados de segundo nível (L2)
+  -tlb:itlb none \               # Sem TLB de instrução
+  -tlb:dtlb none \               # Sem TLB de dados
+  Benchmarks/gcc/cc1.ss \        # Executável do benchmark (gcc compilado para simulação)
+  Benchmarks/gcc/gcc.i           # Arquivo de entrada (código-fonte a ser compilado)
+
+
+
+Principais partes:
+-cache:il1 il1:64:32:1:l: define um cache de instrução L1 com:
+
+64 blocos
+
+32 bytes por bloco
+
+1 via associativa (cache direto)
+
+política de substituição LRU (último "l")
+
+-cache:dl1 dl1:64:32:1:l: mesma coisa, mas para o cache de dados L1.
+
+-cache:il2 none, -cache:dl2 none: desativa o uso de caches L2 (nível 2).
+
+-tlb:itlb none, -tlb:dtlb none: desativa as TLBs (Translation Lookaside Buffers), ou seja, não há tradução de endereços virtuais para físicos nesta simulação.
+
+cc1.ss: é o simulador do compilador GCC, e gcc.i é o código-fonte a ser compilado. Isso cria uma carga de trabalho representativa para analisar o desempenho do cache.
+
+
+
+Em resumo:
+Esse comando simula a execução de um compilador GCC (compilando um código-fonte) com um sistema simplificado:
+
+Caches L1 bem pequenos e diretos,
+
+Sem caches L2,
+
+Sem TLBs,
+
+Foco em observar o comportamento básico de cache de instrução e dados.
